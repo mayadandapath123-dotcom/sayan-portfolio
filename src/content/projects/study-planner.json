@@ -1,0 +1,15 @@
+{
+  "id": "sample-study-planner",
+  "slug": "study-planner",
+  "title": "Study Planner",
+  "shortDescription": "A simple study tool to track Class 10 subjects and revision.",
+  "longDescription": "A lightweight planner to organize subjects, topics, and revision dates while balancing school with building projects. Kept intentionally simple so it's actually used.",
+  "category": ["Study Tools", "Web"],
+  "status": "Idea",
+  "year": 2026,
+  "featured": false,
+  "sampleData": true,
+  "projectUrl": "https://example-sample.netlify.app",
+  "technologies": ["HTML", "CSS", "JavaScript"],
+  "tags": ["study", "planner", "student"]
+}

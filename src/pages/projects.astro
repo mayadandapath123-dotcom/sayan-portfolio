@@ -1,0 +1,128 @@
+---
+import Layout from '@/components/Layout.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import { getAllProjects } from '@/lib/projects';
+
+const allProjects = getAllProjects();
+
+// Distinct filter values
+const categories = [...new Set(allProjects.flatMap((p) => p.category))].sort();
+const statuses = [...new Set(allProjects.map((p) => p.status))].sort();
+const years = [...new Set(allProjects.map((p) => p.year))].sort((a, b) => b - a);
+---
+<Layout title="Projects — Sayan" description="My project archive: everything I've built, searchable and filterable. One click to open any project." active="projects">
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h1>Projects</h1>
+        <p>
+          Everything I've built — websites, apps, tools, experiments. Each card has an
+          <strong>Open Project</strong> button that takes you straight to the live URL.
+          Ugly hosted URLs stay in the database; you only remember this one.
+        </p>
+      </div>
+
+      <!-- Search + filters -->
+      <div class="filters" role="search" aria-label="Project filters">
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input
+            id="project-search"
+            type="text"
+            placeholder="Search projects, tags, technologies…"
+            aria-label="Search projects"
+          />
+        </div>
+        <button class="pill pill--status" data-filter="category" data-value="all">All categories</button>
+        {categories.map((c) => (
+          <button class="pill pill--status" data-filter="category" data-value={c}>{c}</button>
+        ))}
+        <button class="pill pill--status" data-filter="status" data-value="all">All statuses</button>
+        {statuses.map((s) => (
+          <button class="pill pill--status" data-filter="status" data-value={s}>{s}</button>
+        ))}
+        <button class="pill pill--status" data-filter="year" data-value="all">All years</button>
+        {years.map((y) => (
+          <button class="pill pill--status" data-filter="year" data-value={y}>{y}</button>
+        ))}
+      </div>
+
+      <div id="projects-grid" class="projects-grid" aria-live="polite">
+        {allProjects.map((p) => (
+          <ProjectCard
+            title={p.title}
+            slug={p.slug}
+            shortDescription={p.shortDescription}
+            status={p.status}
+            year={p.year}
+            category={p.category}
+            technologies={p.technologies}
+            featured={p.featured}
+            imageUrl={p.imageUrl}
+            projectUrl={p.projectUrl}
+          />
+        ))}
+      </div>
+
+      {allProjects.length === 0 && (
+        <div class="empty-state">
+          <h2>No projects yet</h2>
+          <p>Add your projects to <code>src/content/projects/</code> (or the database later).</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <script>
+    const cards = document.querySelectorAll('.project-card');
+    const searchInput = document.getElementById('project-search');
+    const filterButtons = document.querySelectorAll('.filters button[data-filter]');
+
+    const state = { query: '', category: 'all', status: 'all', year: 'all' };
+
+    function matches(card) {
+      const data = card.dataset;
+      const q = state.query.toLowerCase();
+      const text = ((data.title || '') + ' ' + (data.tags || '') + ' ' + (data.tech || '')).toLowerCase();
+      const byQuery = !q || text.includes(q);
+      const byCat = state.category === 'all' || data.category === state.category;
+      const bySt = state.status === 'all' || data.status === state.status;
+      const byYr = state.year === 'all' || data.year === state.year;
+      return byQuery && byCat && bySt && byYr;
+    }
+
+    function render() {
+      cards.forEach((c) => {
+        c.style.display = matches(c) ? '' : 'none';
+      });
+    }
+
+    searchInput?.addEventListener('input', (e) => {
+      state.query = e.target.value;
+      render();
+    });
+
+    filterButtons.forEach((b) => {
+      b.addEventListener('click', () => {
+        const filter = b.dataset.filter;
+        const value = b.dataset.value;
+        state[filter] = value;
+        filterButtons.forEach((bb) => {
+          if (bb.dataset.filter === filter) {
+            bb.classList.toggle('pill--accent', bb === b);
+          }
+        });
+        render();
+      });
+    });
+
+    // Expose dataset for JS filtering
+    cards.forEach((c) => {
+      const tagsEl = c.querySelector('.card-tags');
+      const text = tagsEl ? tagsEl.textContent : '';
+      c.dataset.tags = text;
+      c.dataset.tech = text;
+      c.dataset.title = c.querySelector('.card-title')?.textContent ?? '';
+    });
+  </script>
+</Layout>

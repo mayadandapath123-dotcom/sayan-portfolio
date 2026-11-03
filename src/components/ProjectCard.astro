@@ -1,0 +1,76 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  shortDescription: string;
+  status: string;
+  year: number;
+  category: string[];
+  technologies: string[];
+  featured?: boolean;
+  imageUrl?: string;
+  projectUrl: string;
+}
+
+const {
+  title,
+  slug,
+  shortDescription,
+  status,
+  year,
+  category,
+  technologies,
+  featured = false,
+  imageUrl,
+  projectUrl = '#',
+} = Astro.props;
+
+const statusClass = `status--${status.toLowerCase()}`;
+---
+<article class="project-card" aria-labelledby={`card-title-${slug}`}>
+  <div class="card-thumb" aria-hidden="true">
+    {imageUrl ? (
+      <img
+        src={imageUrl}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        width="400"
+        height="200"
+      />
+    ) : (
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#171717 0%,#1f1f1f 100%);display:flex;align-items:center;justify-content:center;color:var(--color-text-dim);font-size:0.85rem;">
+        No thumbnail
+      </div>
+    )}
+    <span class="card-status pill pill--status {statusClass}">{status}</span>
+  </div>
+  <div class="card-body">
+    <div class="card-meta">
+      <span class="pill">{year}</span>
+      <span class="pill">{category.slice(0, 2).join(' · ')}</span>
+    </div>
+    <h3 id={`card-title-${slug}`} class="card-title">{title}</h3>
+    <p class="card-description">{shortDescription}</p>
+    <div class="card-footer">
+      <div class="card-tags">
+        {technologies.slice(0, 3).map((t) => (
+          <span class="card-tag">{t}</span>
+        ))}
+      </div>
+      <a href={projectUrl} class="btn btn--ghost btn--small" target="_blank" rel="noopener noreferrer">
+        Open Project ↗
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card-status {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 2;
+  }
+  .card-thumb { position: relative; }
+</style>

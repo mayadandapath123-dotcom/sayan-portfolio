@@ -1,0 +1,103 @@
+---
+import Layout from '@/components/Layout.astro';
+import { getProjectBySlug, getAllSlugs } from '@/lib/projects';
+
+export function getStaticPaths() {
+  return getAllSlugs().map((slug) => ({
+    params: { slug },
+    props: { project: getProjectBySlug(slug) },
+  }));
+}
+
+interface Props {
+  project: import('@/lib/supabase').Project;
+}
+const { project } = Astro.props;
+
+const SITE = import.meta.env.PUBLIC_SITE_URL || 'https://sayan-portfolio.netlify.app';
+const pageUrl = new URL(`/projects/${project.slug}`, SITE).href;
+---
+<Layout
+  title={project.title + ' — Sayan\'s Project'}
+  description={project.shortDescription}
+  ogImage={project.imageUrl}
+  active="projects"
+>
+  <section class="section">
+    <div class="container">
+      <nav style="margin-bottom:1.5rem;">
+        <a href="/projects" style="color:var(--color-text-muted); font-size:0.9rem;">← Back to Projects</a>
+      </nav>
+
+      <div class="detail-hero">
+        <div class="detail-meta">
+          <div class="detail-status pill {`status--${project.status.toLowerCase()}`}">{project.status}</div>
+          <h1 class="detail-title">{project.title}</h1>
+          <p style="color:var(--color-text-muted); margin:0.5rem 0 1rem;">{project.year} · {project.category.join(' · ')}</p>
+          <div class="detail-links">
+            <a href={project.projectUrl} class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+              Open Project ↗
+            </a>
+            <button class="btn btn--outline btn--small" onclick="navigator.clipboard.writeText('{project.projectUrl}')">
+              Copy URL
+            </button>
+            {project.githubUrl && (
+              <a href={project.githubUrl} class="btn btn--outline btn--small" target="_blank" rel="noopener noreferrer">GitHub</a>
+            )}
+          </div>
+          <div style="margin-top:1rem; display:flex; gap:0.6rem; flex-wrap:wrap;">
+            {project.technologies.map((t) => (
+              <span class="pill pill--status" key={t}>{t}</span>
+            ))}
+          </div>
+        </div>
+        <div class="detail-thumb" aria-hidden="true">
+          {project.imageUrl ? (
+            <img src={project.imageUrl} alt="" loading="lazy" decoding="async" width="800" height="450" />
+          ) : (
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,#171717 0%,#1f1f1f 100%);display:flex;align-items:center;justify-content:center;color:var(--color-text-dim);">No screenshot</div>
+          )}
+        </div>
+      </div>
+
+      {project.longDescription && (
+        <div class="detail-section">
+          <h3>What is it?</h3>
+          <p>{project.longDescription}</p>
+        </div>
+      )}
+
+      <div class="detail-section">
+        <h3>Technologies</h3>
+        <ul class="tech-list">
+          {project.technologies.map((t) => <li key={t}>{t}</li>)}
+        </ul>
+      </div>
+
+      <div class="detail-section">
+        <h3>Links</h3>
+        <div class="link-row">
+          <a href={project.projectUrl} class="btn btn--outline" target="_blank" rel="noopener noreferrer">Open Project ↗</a>
+          <button class="btn btn--outline btn--small" onclick="navigator.clipboard.writeText('{project.projectUrl}')">Copy URL</button>
+          {project.githubUrl && <a href={project.githubUrl} class="btn btn--outline btn--small" target="_blank" rel="noopener noreferrer">GitHub</a>}
+          {project.demoUrl && <a href={project.demoUrl} class="btn btn--outline btn--small" target="_blank" rel="noopener noreferrer">Live Demo</a>}
+          {project.docsUrl && <a href={project.docsUrl} class="btn btn--outline btn--small" target="_blank" rel="noopener noreferrer">Documentation</a>}
+        </div>
+      </div>
+
+      {project.what_i_learned && (
+        <div class="detail-section">
+          <h3>What I learned</h3>
+          <p>{project.what_i_learned}</p>
+        </div>
+      )}
+
+      {project.future_plans && (
+        <div class="detail-section">
+          <h3>What's next</h3>
+          <p>{project.future_plans}</p>
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>

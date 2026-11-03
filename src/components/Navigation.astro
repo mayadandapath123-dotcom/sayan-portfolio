@@ -1,0 +1,46 @@
+---
+export interface Props {
+  active?: string;
+}
+const { active = 'home' } = Astro.props;
+
+const navItems = [
+  { href: '/', label: 'Home', id: 'home' },
+  { href: '/about', label: 'About', id: 'about' },
+  { href: '/projects', label: 'Projects', id: 'projects' },
+  { href: '/life', label: 'Life', id: 'life' },
+  { href: '/experiments', label: 'Experiments', id: 'experiments' },
+  { href: '/links', label: 'Links', id: 'links' },
+];
+---
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="/" class="brand" aria-label="Sayan — home">
+      SAYAN<span class="accent">.</span>
+    </a>
+
+    <nav>
+      <ul class="nav-list" role="navigation" aria-label="Main navigation">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              id={`nav-${item.id}`}
+              aria-current={active === item.id ? 'page' : undefined}
+              class={active === item.id ? '' : ''}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="mobile-menu-btn" aria-expanded="false" aria-controls="nav-list" aria-label="Open menu">
+        ☰
+      </button>
+      <a href="/projects" class="btn btn--outline btn--small">Explore Projects</a>
+    </div>
+  </div>
+</header>

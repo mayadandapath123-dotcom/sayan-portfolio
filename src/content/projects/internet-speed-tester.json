@@ -1,0 +1,16 @@
+{
+  "id": "sample-internet-speed-tester",
+  "slug": "internet-speed-tester",
+  "title": "Internet Speed Tester",
+  "shortDescription": "A minimal browser-based internet speed test.",
+  "longDescription": "A no-frills tool to check download/upload speed and latency straight from the browser. Built because I kept forgetting which speed-test site I last used and wanted something I could reach from my own URL.",
+  "category": ["Web", "Python", "Automation"],
+  "status": "Completed",
+  "year": 2025,
+  "featured": false,
+  "sampleData": true,
+  "projectUrl": "https://example-sample.onrender.com",
+  "githubUrl": "https://github.com/example/internet-speed-tester",
+  "technologies": ["Python", "FastAPI", "JavaScript"],
+  "tags": ["speed", "network", "tool"]
+}

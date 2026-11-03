@@ -1,0 +1,58 @@
+---
+import Navigation from './Navigation.astro';
+import Footer from './Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noIndex?: boolean;
+  active?: string;
+}
+
+const {
+  title = 'Sayan — Student, Builder & Experimenter',
+  description,
+  ogImage,
+  noIndex = false,
+  active = 'home',
+} = Astro.props;
+
+const SITE = import.meta.env.PUBLIC_SITE_URL || 'https://sayan-portfolio.netlify.app';
+const pageUrl = new URL(Astro.url.pathname, SITE).href;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noIndex ? 'noindex' : 'index,follow'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {ogImage && <meta property="og:image" content={new URL(ogImage, SITE).href} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href={pageUrl} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a href="#content" class="visually-hidden">Skip to content</a>
+    <Navigation active={active} />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      const btn = document.querySelector('.mobile-menu-btn');
+      const list = document.querySelector('.nav-list');
+      btn?.addEventListener('click', () => {
+        const open = list?.classList.toggle('open') ?? false;
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    </script>
+  </body>
+</html>

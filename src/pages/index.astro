@@ -1,0 +1,107 @@
+---
+import Layout from '@/components/Layout.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import { getAllProjects, getFeaturedProjects } from '@/lib/projects';
+
+const allProjects = getAllProjects();
+const featured = getFeaturedProjects().slice(0, 6);
+const latest = allProjects.slice(0, 6);
+---
+<Layout
+  title="Sayan — Student, Builder & Experimenter"
+  description="Personal portfolio, project archive, and URL hub. One URL to everything I build — websites, apps, Python tools, Linux experiments, and more."
+  active="home"
+>
+  <section class="hero">
+    <h1 class="name">Hi, I'm <span class="accent">Sayan</span>.</h1>
+    <p class="tagline">Student. Builder. Experimenter.</p>
+    <p class="subtitle">
+      I build apps, websites, experiments, tools, and random useful things scattered across
+      different platforms. This is the single URL to find them all.
+    </p>
+    <div class="hero-actions">
+      <a href="/projects" class="btn btn--primary">Explore Projects</a>
+      <a href="/about" class="btn btn--outline">About Me</a>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section--tight">
+      <div class="container">
+        <div class="section-header">
+          <h2>Featured Projects</h2>
+          <p>A handful of things I'm most proud of right now.</p>
+        </div>
+        <div class="projects-grid">
+          {featured.map((p) => (
+            <ProjectCard
+              title={p.title}
+              slug={p.slug}
+              shortDescription={p.shortDescription}
+              status={p.status}
+              year={p.year}
+              category={p.category}
+              technologies={p.technologies}
+              featured={p.featured}
+              imageUrl={p.imageUrl}
+              projectUrl={p.projectUrl}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Latest Projects</h2>
+        <p>The full archive lives on the Projects page.</p>
+      </div>
+      <div class="projects-grid">
+        {latest.map((p) => (
+          <ProjectCard
+            title={p.title}
+            slug={p.slug}
+            shortDescription={p.shortDescription}
+            status={p.status}
+            year={p.year}
+            category={p.category}
+            technologies={p.technologies}
+            imageUrl={p.imageUrl}
+            projectUrl={p.projectUrl}
+          />
+        ))}
+      </div>
+      <p style="text-align:center;">
+        <a href="/projects" class="btn btn--outline btn--small">View all projects →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section--tight" style="background:var(--color-bg-elevated);">
+    <div class="container">
+      <div class="section-header">
+        <h2>A little about me</h2>
+        <p>More on the About page.</p>
+      </div>
+      <p>
+        I'm a student who builds things whenever an idea feels worth trying. Right now
+        that's mostly Class 10 studies, websites, Python tools, Linux tinkering, and the
+        occasional hardware experiment. This site is my archive — so I never have to hunt
+        down a project URL again.
+      </p>
+      <div style="margin-top:1.5rem; text-align:center;">
+        <a href="/about" class="btn btn--outline">Read more about me</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="text-align:center;">
+      <h2 style="font-size:1.5rem; margin-bottom:0.5rem;">Explore my journey →</h2>
+      <p class="" style="color:var(--color-text-muted);">Places, experiments, milestones, and memories.</p>
+      <a href="/life" class="btn btn--primary" style="margin-top:1rem;">Go to Life / Journey</a>
+    </div>
+  </section>
+</Layout>

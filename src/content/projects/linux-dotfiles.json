@@ -1,0 +1,16 @@
+{
+  "id": "sample-linux-dotfiles",
+  "slug": "linux-dotfiles",
+  "title": "Linux Dotfiles",
+  "shortDescription": "My personal Linux configuration and automation setup.",
+  "longDescription": "Dotfiles, shell scripts, and automation for my Linux workstation — window manager, terminal, editor, and a few custom utilities that make the system feel like mine.",
+  "category": ["Linux", "Automation"],
+  "status": "Building",
+  "year": 2025,
+  "featured": true,
+  "sampleData": true,
+  "projectUrl": "https://github.com/example/dotfiles",
+  "githubUrl": "https://github.com/example/dotfiles",
+  "technologies": ["Bash", "Python", "tmux", "Vim"],
+  "tags": ["linux", "dotfiles", "automation", "config"]
+}

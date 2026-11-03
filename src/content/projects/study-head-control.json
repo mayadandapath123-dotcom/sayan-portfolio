@@ -1,0 +1,16 @@
+{
+  "id": "sample-study-head-control",
+  "slug": "study-head-control",
+  "title": "Study Head Control",
+  "shortDescription": "Head-control experiment for accessibility — navigate your computer using head movement.",
+  "longDescription": "An accessibility experiment that lets you control the cursor and trigger actions using head movement captured through a webcam. Built to explore how cheap, software-only input methods can help people who cannot use a mouse or keyboard comfortably.",
+  "category": ["AI", "Hardware", "Experiments"],
+  "status": "Experimental",
+  "year": 2026,
+  "featured": true,
+  "sampleData": true,
+  "projectUrl": "https://example-sample-vercel.vercel.app",
+  "githubUrl": "https://github.com/example/study-head-control",
+  "technologies": ["Python", "OpenCV", "JavaScript"],
+  "tags": ["accessibility", "webcam", "head-tracking", "ai"]
+}

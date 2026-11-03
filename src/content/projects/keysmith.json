@@ -1,0 +1,16 @@
+{
+  "id": "sample-keysmith",
+  "slug": "keysmith",
+  "title": "Keysmith",
+  "shortDescription": "A keyboard-focused project with authentication, games, races and more.",
+  "longDescription": "Keysmith is a keyboard-centric web experiment built around typing games, races, and authentication. It began as a personal experiment to make keyboard input feel playful and competitive.",
+  "category": ["Web", "Experiments"],
+  "status": "Building",
+  "year": 2026,
+  "featured": true,
+  "sampleData": true,
+  "projectUrl": "https://example-sample.netlify.app",
+  "githubUrl": "https://github.com/example/keysmith",
+  "technologies": ["React", "TypeScript", "Tailwind"],
+  "tags": ["keyboard", "typing", "games", "auth"]
+}
